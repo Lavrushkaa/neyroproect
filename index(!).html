@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Нейросети как инструмент развития и риски их использования</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Unbounded:wght@500..800&display=swap">
+<style>
+:root{--bg:#070A1F;--sf:rgba(255,255,255,.06);--tx:#F1EFFF;--mu:#B8B6DC;--ac:#A9A6FF;--t1:rgba(255,127,107,.13);--t2:rgba(46,196,182,.13);--t3:rgba(154,140,242,.16);--t4:rgba(255,200,87,.12);--nb:rgba(7,10,31,.78);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:root[data-theme="dark"]{color-scheme:dark}
+.dk{background:none!important}
+#sf{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.ob{position:absolute;right:6%;top:50%;width:440px;height:440px;margin-top:-220px;z-index:1;pointer-events:none}
+.ob i{position:absolute;left:50%;top:50%;border:1px dashed rgba(170,200,255,.35);border-radius:50%;animation:sp 24s linear infinite}
+.ob i::after{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--c);box-shadow:0 0 16px var(--c)}
+.ob .o1{width:440px;height:440px;margin:-220px 0 0 -220px;--c:#FF8A76}
+.ob .o2{width:310px;height:310px;margin:-155px 0 0 -155px;--c:#FFC857;animation-duration:15s;animation-direction:reverse}
+.ob .o3{width:180px;height:180px;margin:-90px 0 0 -90px;--c:#35E0C8;animation-duration:9s}
+.ob b{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:radial-gradient(circle,#fff,#FFC857 60%,#FF8A76);box-shadow:0 0 50px 12px rgba(255,200,87,.5);animation:pz 3s ease-in-out infinite}
+.ob b::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,200,87,.7);animation:rp 3s ease-out infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes pz{50%{transform:scale(1.15)}}
+@keyframes rp{to{transform:scale(5);opacity:0}}
+@media (max-width:1100px){.ob{opacity:.4}}
+@media (max-width:800px){.ob{right:-120px}}
+.k::before{content:"✦ "}
+.sv{background:var(--sf);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:32px;backdrop-filter:blur(8px);max-width:760px}
+.pgb{height:8px;border-radius:99px;background:rgba(255,255,255,.1);margin-bottom:26px;overflow:hidden}
+.pgb i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8B7CFF,#35E0C8);transition:width .5s}
+.qa{animation:qi .45s cubic-bezier(.2,.8,.2,1)}@keyframes qi{from{opacity:0;transform:translateX(32px)}}
+.qh{color:var(--mu);font-size:14px;margin:0 0 12px}
+.qt{font:600 clamp(19px,3vw,25px)/1.3 Unbounded,sans-serif;margin:0 0 22px}
+.op{display:block;width:100%;text-align:left;margin:0 0 10px;padding:14px 18px;border-radius:16px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:var(--tx);font:600 17px Inter,sans-serif;cursor:pointer;transition:.2s}
+.op:hover{border-color:#8B7CFF;transform:translateX(4px)}
+.op.on{background:linear-gradient(90deg,#5B4FD6,#0F7A6B);border-color:transparent;color:#fff}
+.nv{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.bt{border:0;border-radius:99px;padding:13px 26px;font:700 16px Inter,sans-serif;cursor:pointer;background:#FFC857;color:#1E1B3A}
+.bt.g{background:rgba(255,255,255,.14);color:var(--tx)}
+.bt:disabled{opacity:.4;cursor:not-allowed}
+select.bt option{color:#1E1B3A}
+.code{width:100%;box-sizing:border-box;background:rgba(0,0,0,.35);color:var(--tx);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:14px;font:15px/1.4 ui-monospace,monospace;word-break:break-all}
+.tb{width:100%;border-collapse:collapse;font-size:15px}.tb th,.tb td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.14);text-align:left}
+.bar i{transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.dw{display:flex;gap:24px;align-items:center;flex-wrap:wrap}.dl{flex:1;min-width:200px}.dl div{margin:6px 0;font-size:15px}.dl i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:10px}
+.ds{transition:stroke-dasharray 1.2s cubic-bezier(.2,.8,.2,1)}
+.in .ds{stroke-dasharray:var(--d)!important}
+.ab i{width:0}.in .ab i{width:var(--w)}
+.vb{display:flex;gap:28px;align-items:flex-end;height:260px;padding-top:30px;border-bottom:1px solid rgba(255,255,255,.2)}
+.vg{flex:1;display:flex;gap:10px;align-items:flex-end;justify-content:center;height:100%}
+.vc{position:relative;width:min(56px,40%);height:0;border-radius:12px 12px 0 0;transition:height 1.3s cubic-bezier(.2,.8,.2,1)}
+.in .vc{height:var(--h)}
+.vc b{position:absolute;top:-26px;left:-10px;right:-10px;text-align:center;font-size:15px}
+.vl{display:flex;gap:28px;margin-top:10px;color:var(--mu);font-size:14px}.vl span{flex:1;text-align:center}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+body{margin:0;background:radial-gradient(1200px 700px at 80% -10%,#2A1B6B 0%,transparent 60%),radial-gradient(900px 600px at 0% 45%,#0F3A4A 0%,transparent 60%),var(--bg);background-attachment:fixed;color:var(--tx);font:17px/1.65 Inter,system-ui,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:19;background:var(--nb)}
+h1,h2,h3{font-family:Unbounded,Inter,system-ui,sans-serif;line-height:1.15;margin:0}
+.w{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--nb);backdrop-filter:blur(12px)}
+nav .w{display:flex;align-items:center;gap:20px;height:60px;overflow-x:auto}
+nav a{color:var(--tx);text-decoration:none;font-weight:600;font-size:15px;white-space:nowrap}
+nav a:hover{color:var(--ac)}nav b{font-family:Unbounded,sans-serif;margin-right:auto;white-space:nowrap}
+#pg{position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#FF8A76,#FFC857,#35E0C8,#8B7CFF);transform-origin:0 0;transform:scaleX(0)}
+#th{border:0;background:var(--t3);color:var(--tx);border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;flex:none}
+#cg{position:fixed;left:0;top:0;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(139,124,255,.22),transparent 65%);pointer-events:none;z-index:1;opacity:0;transition:opacity .4s}
+@media (hover:none){#cg{display:none}}
+.hero{position:relative;overflow:hidden;color:#fff}
+.hero .w{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px);padding-top:56px;padding-bottom:72px}
+#cv{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.bl{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;animation:fl 14s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translate(60px,-50px) scale(1.2)}}
+.k{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FFC857;margin:0 0 20px}
+.hero h1{font-size:clamp(25px,7vw,76px);font-weight:800;max-width:960px}
+.wd{display:inline-block;overflow:hidden;vertical-align:bottom;margin-right:.25em;padding-bottom:.08em}
+.wd span{display:inline-block;animation:up .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.09s + .2s)}
+@keyframes up{from{transform:translateY(115%)}}
+.gt{background:linear-gradient(90deg,#FFC857,#FF8A76,#9A8CF2,#35E0C8,#FFC857);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gs 6s linear infinite,up .9s cubic-bezier(.2,.8,.2,1) both!important;animation-delay:0s,calc(var(--i)*.09s + .2s)!important}
+@keyframes gs{to{background-position:-200% 0}}
+.ty{font-size:clamp(19px,2.6vw,28px);color:#D6D4F2;margin:28px 0 36px;min-height:2.4em}
+.ty b{color:#fff}.cr{animation:bk 1s steps(1) infinite;color:#FFC857}@keyframes bk{50%{opacity:0}}
+.btn{display:inline-block;background:#FFC857;color:#1E1B3A;font-weight:700;text-decoration:none;border-radius:99px;padding:15px 30px;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(255,200,87,.35)}
+.sc{position:absolute;left:50%;bottom:22px;z-index:2;width:26px;height:42px;border:2px solid rgba(255,255,255,.5);border-radius:14px;transform:translateX(-50%)}
+.sc::after{content:"";position:absolute;left:10px;top:8px;width:4px;height:8px;border-radius:2px;background:#fff;animation:sd 1.6s ease-in-out infinite}
+@keyframes sd{60%{transform:translateY(14px);opacity:0}}
+.mq{background:linear-gradient(90deg,rgba(108,77,255,.55),rgba(24,191,169,.55));color:#fff;backdrop-filter:blur(6px);border-block:1px solid rgba(255,255,255,.2);transform:rotate(-1.5deg);margin:-8px -20px 0;overflow:hidden;white-space:nowrap;font:700 18px Unbounded,sans-serif;padding:16px 0;position:relative;z-index:3}
+.mq div{display:inline-block;animation:mq 32s linear infinite}@keyframes mq{to{transform:translateX(-50%)}}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;padding:72px 0 8px}
+.st div{text-align:center}.st b{display:block;font:800 clamp(40px,6vw,64px) Unbounded,sans-serif;color:#FFC857;text-shadow:0 0 32px rgba(255,200,87,.5)}
+.st span{color:var(--mu);font-size:15px}
+.sec{padding:88px 0}
+.sec h2{font-size:clamp(26px,4vw,42px);margin-bottom:14px;background:linear-gradient(90deg,#fff,#BFD4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mu);max-width:720px;margin:0 0 36px;font-size:18px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.c{border-radius:24px;padding:28px;background:var(--sf);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)}
+.c h3{font-size:18px;margin-bottom:10px}.c p{margin:0;color:var(--mu)}
+.c1{background:var(--t1)}.c2{background:var(--t2)}.c3{background:var(--t3)}.c4{background:var(--t4)}
+.tl{position:relative;display:flex;gap:20px;flex-wrap:wrap;padding-top:24px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:2px;background:linear-gradient(90deg,#FF8A76,#FFC857,#35E0C8);transform:scaleX(0);transform-origin:0 0;transition:transform 1.6s .2s}
+.tl.in::before{transform:none}.tl .c{flex:1;min-width:220px}
+.yr{font:800 38px Unbounded,sans-serif;margin-bottom:6px;color:var(--ac)}
+.tc{position:relative;border-radius:24px;padding:28px;background:var(--sf);overflow:hidden;transition:transform .2s;transform-style:preserve-3d}
+.tc::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(139,124,255,.28),transparent 70%);opacity:0;transition:opacity .3s}
+.tc:hover::before{opacity:1}.tc>*{position:relative}
+.tc i{font-style:normal;font-size:44px;display:block;margin-bottom:12px}.tc h3{font-size:18px;margin-bottom:8px}.tc p{margin:0;color:var(--mu);font-size:16px}
+.pc ul{padding-left:20px;margin:0}.pc li{margin-bottom:10px}
+.bal{margin-top:32px;border-radius:28px;padding:36px;background:var(--t3)}
+.bal h3{font-size:22px;margin-bottom:6px}
+input[type=range]{width:100%;margin:24px 0 8px;accent-color:#8B7CFF;height:32px}
+.sl{display:flex;justify-content:space-between;color:var(--mu);font-size:14px}
+.m{margin:18px 0}.m span{font-weight:700}.m div{height:16px;border-radius:99px;background:rgba(128,128,160,.2);margin-top:6px;overflow:hidden}
+.m i{display:block;height:100%;border-radius:99px;transition:width .35s}
+#msg{font-weight:600;font-size:19px;margin:20px 0 4px;min-height:3.2em}
+.big{font:600 clamp(22px,3.2vw,34px)/1.3 Unbounded,sans-serif;max-width:900px;margin:0 0 40px}
+.hl{background:linear-gradient(90deg,#FFC857,#FF8A76) 0 100%/0 .35em no-repeat;transition:background-size 1.2s .4s}.in .hl,.hl.in{background-size:100% .35em}
+.fl{height:230px;perspective:900px;cursor:pointer}
+.fl>div{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.fl.f>div{transform:rotateY(180deg)}
+.fl section{position:absolute;inset:0;border-radius:24px;padding:26px;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center}
+.fl .bk{transform:rotateY(180deg)}.fl h3{font-size:19px}.fl p{margin:8px 0 0;color:var(--mu)}
+.n{font:800 54px Unbounded,sans-serif;color:var(--ac);line-height:1;margin-bottom:12px}
+.h{font-size:14px;color:var(--mu);margin-top:14px}
+details{background:var(--sf);border-radius:16px;padding:16px 22px;margin-bottom:12px}
+summary{cursor:pointer;font-weight:700}details ol{margin:12px 0 0;color:var(--mu)}details li{margin-bottom:8px}
+.bar{margin:10px 0}.bar i{display:block;height:14px;border-radius:99px;background:linear-gradient(90deg,#8B7CFF,#35E0C8)}
+.empty{border:2px dashed var(--ac);border-radius:24px;padding:40px;text-align:center;color:var(--mu);animation:pu 2.4s ease-in-out infinite}@keyframes pu{50%{border-color:transparent}}
+.end{position:relative;overflow:hidden;color:#fff}
+footer{padding:32px 0;text-align:center;color:var(--mu);font-size:14px}
+.rv{--t:translateY(32px)}.rl{--t:translateX(-60px)}.rr{--t:translateX(60px)}.rz{--t:scale(.88)}
+.js .rv,.js .rl,.js .rr,.js .rz{opacity:0;transform:var(--t);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.js .in.rv,.js .in.rl,.js .in.rr,.js .in.rz{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js .rv,.js .rl,.js .rr,.js .rz{opacity:1;transform:none}.gt{color:#FFC857}}
+</style>
+</head>
+<body>
+<div id="cg"></div><canvas id="sf" aria-hidden="true"></canvas>
+<nav><div class="w"><b>🪐 Нейросети</b><a href="#intro">Введение</a><a href="#ch1">Глава 1</a><a href="#survey">Опрос</a><a href="#end">Выводы</a></div><div id="pg"></div></nav>
+
+<header class="hero">
+<div class="bl" style="width:420px;height:420px;background:#6C4DFF;left:-120px;top:-80px"></div>
+<div class="bl" style="width:380px;height:380px;background:#FF7F6B;right:-100px;bottom:-60px;animation-delay:-5s"></div>
+<div class="bl" style="width:300px;height:300px;background:#18BFA9;right:30%;top:-120px;animation-delay:-9s"></div>
+<canvas id="cv" aria-hidden="true"></canvas><div class="ob" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i><b></b></div>
+<div class="w"><p class="k">Исследовательская работа</p>
+<h1 id="h1">Нейросети как инструмент развития и риски их использования</h1>
+<p class="ty">Нейросеть — <b id="tw"></b><span class="cr">|</span></p>
+<div><a class="btn" href="#intro">Читать работу</a></div></div>
+<div class="sc" aria-hidden="true"></div>
+</header>
+<div class="mq" aria-hidden="true"><div id="mq"></div></div>
+
+<div class="w"><div class="st">
+<div class="rz"><b data-n="2017">0</b><span>год рождения трансформера</span></div>
+<div class="rz" style="--d:.1s"><b data-n="5">0</b><span>сфер применения</span></div>
+<div class="rz" style="--d:.2s"><b data-n="4">0</b><span>границы разумного использования</span></div>
+<div class="rz" style="--d:.3s"><b data-n="13">0</b><span>вопросов в опросе</span></div>
+</div></div>
+
+<section class="sec" id="intro"><div class="w">
+<h2 class="rv">Введение</h2>
+<p class="lead rv">Искусственный интеллект ещё недавно казался фантастикой, а сегодня им ежедневно пользуются миллионы людей. Нейросети вызывают наибольший интерес и множество споров о пользе и вреде.</p>
+<div class="g">
+<div class="c c1 rl"><h3>Цель</h3><p>Изучить влияние нейросетей на жизнь человека и общества, выявить их плюсы и минусы.</p></div>
+<div class="c c2 rv" style="--d:.1s"><h3>Задачи</h3><p>Изучить сферы применения. Выявить плюсы и минусы ИИ. Провести опрос людей разных возрастов.</p></div>
+<div class="c c3 rv" style="--d:.2s"><h3>Гипотеза</h3><p>Нейросети эффективно помогают в конкретных задачах, но при злоупотреблении возможно снижение когнитивной активности.</p></div>
+<div class="c c4 rr" style="--d:.3s"><h3>Методы</h3><p>Анализ литературы и интернет-ресурсов, опрос среди людей разных возрастных групп.</p></div>
+</div></div></section>
+
+<section class="sec dk" id="ch1" style="background:var(--bg);color:var(--tx)"><div class="w">
+<p class="k">Глава 1</p>
+<h2 class="rv">Что такое нейросеть</h2>
+<p class="lead rv">Математическая модель по принципу биологических нейронных сетей: она учится на данных и сама находит закономерности, без явного программирования каждого правила.</p>
+<div class="tl rv" id="tl">
+<div class="c c1"><div class="yr">2017</div><h3>Трансформер</h3><p>Архитектура из работы «Attention Is All You Need», основа больших языковых моделей.</p></div>
+<div class="c c2"><div class="yr">2022</div><h3>ChatGPT, Midjourney</h3><p>Нейросети стали доступны массовому пользователю.</p></div>
+<div class="c c3"><div class="yr">2023</div><h3>YandexGPT, GigaChat</h3><p>Появились российские языковые модели.</p></div>
+</div>
+<h2 class="rv" style="margin-top:88px">Где применяют</h2>
+<p class="lead rv">Наведи курсор или коснись карточки.</p>
+<div class="g" id="sg"></div>
+</div></section>
+
+<section class="sec"><div class="w">
+<h2 class="rv">Плюсы и минусы</h2><p class="lead rv">Польза проявляется при осознанном использовании, а риски растут при бесконтрольном.</p>
+<div class="g pc">
+<div class="c c2 rl"><h3>👍 Преимущества</h3><ul><li><b>Производительность.</b> Рутина уходит, остаётся время на творчество.</li><li><b>Доступность.</b> Знания и консультации ближе к удалённым регионам.</li><li><b>Персонализация.</b> Платформы подстраиваются под человека.</li><li><b>Наука.</b> Быстрее анализ данных и поиск новых материалов.</li></ul></div>
+<div class="c c1 rr"><h3>⚠️ Недостатки</h3><ul><li><b>Когнитивная активность.</b> Слабеет самостоятельное мышление.</li><li><b>Достоверность.</b> Модели могут уверенно выдавать ложь.</li><li><b>Этика и право.</b> Авторские права, данные, предвзятость.</li><li><b>Рынок труда.</b> Часть профессий меняется или сокращается.</li></ul></div>
+</div>
+<div class="bal rv"><h3>Попробуй сам: сколько мыслей ты отдаёшь нейросети?</h3>
+<p class="h" style="margin:0">Наглядная модель идеи из работы, а не научные данные.</p>
+<input type="range" id="rg" min="0" max="100" value="45" aria-label="Доля мыслительных задач, переданных нейросети">
+<div class="sl"><span>Всё делаю сам</span><span>Всё делает нейросеть</span></div>
+<div class="m"><span>Польза: <u id="bn"></u>%</span><div><i id="bb" style="background:#35E0C8"></i></div></div>
+<div class="m"><span>Риск для навыков: <u id="rn"></u>%</span><div><i id="rb" style="background:#FF8A76"></i></div></div>
+<p id="msg" aria-live="polite"></p></div>
+</div></section>
+
+<section class="sec dk" style="background:var(--bg);color:var(--tx)"><div class="w">
+<h2 class="rv">Когнитивная разгрузка</h2>
+<p class="big rv">Перенос части мыслительных операций на внешние инструменты: в меру это <span class="hl">полезно</span>, а в избытке мешает развивать <span class="hl">собственные навыки</span>.</p>
+<div class="g">
+<div class="c c1 rl"><h3>✍️ Письмо</h3><p>Если текст всегда пишет нейросеть, мысль и аргументы не тренируются.</p></div>
+<div class="c c3 rr"><h3>🔎 Критическое мышление</h3><p>Доверять уверенному ответу опасно из-за «галлюцинаций» ИИ.</p></div>
+</div>
+<h2 class="rv" style="margin-top:88px">Границы разумного использования</h2>
+<p class="lead rv">Согласуются с рекомендациями ЮНЕСКО. Нажми на карточку, чтобы перевернуть.</p>
+<div class="g" id="fg"></div>
+</div></section>
+
+<section class="sec" id="data"><div class="w">
+<p class="k" style="color:var(--ac)">Данные</p>
+<h2 class="rv">Нейросети в цифрах</h2>
+<p class="lead rv">Опрос ВЦИОМ в июне 2026 года: 3 209 российских интернет-пользователей старше 18 лет.</p>
+<div class="g">
+<div class="c c3 rl"><h3>Растёт и число пользователей, и частота</h3><div id="ch1"></div></div>
+<div class="c c2 rr"><h3>Пользовались за последний год</h3><div id="ch2"></div></div>
+</div>
+<div class="g" style="margin-top:20px">
+<div class="c c4 rv"><h3>Главный плюс, по мнению россиян</h3><div id="ch3"></div></div>
+<div class="c c1 rv"><h3>Почему не пользуются</h3><div id="ch4"></div></div>
+</div>
+<p class="rv" style="color:var(--mu);font-size:14px;margin-top:20px">Источник: ВЦИОМ (опрос 25–27 июня 2026 г.) по пересказу ТАСС и Unisender. Значение за 2025 год получено как 78% минус 5 п. п. Опрошены только интернет-пользователи 18+, школьников в выборке нет.</p>
+</div></section>
+
+<section class="sec" id="survey"><div class="w">
+<p class="k" style="color:var(--ac)">Глава 2</p>
+<h2 class="rv">Опрос</h2>
+<p class="lead rv">Анонимный опрос на 2–3 минуты: как люди разных возрастов пользуются нейросетями и как оценивают их влияние на мышление.</p>
+<a id="sl" hidden></a>
+<p id="sn" hidden></p>
+<div id="qs"></div>
+</div></section>
+
+<section class="sec dk" id="results" hidden><div class="w">
+<h2 class="rv">Результаты</h2><div id="rs"></div>
+</div></section>
+
+<section class="sec end" id="end"><div class="bl" style="width:420px;height:420px;background:#6C4DFF;right:-100px;top:-100px"></div><div class="w">
+<p class="k">Вывод</p>
+<p class="big rv" style="margin-bottom:20px">Нейросети — мощный инструмент, но <span class="hl">польза зависит от того, кто и как ими пользуется</span>.</p>
+<p style="color:#D6D4F2;max-width:720px">Литература подтверждает гипотезу: осознанное и ограниченное использование даёт пользу, бесконтрольное повышает риски. Опрос покажет, насколько это заметно на практике.</p>
+</div></section>
+<footer>Автор: Гусельников Никита Вячеславович · Исследовательская работа</footer>
+
+<script>
+const SURVEY_URL="",RESULTS=[];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const SPH=[["🎓","Образование","Персонализация обучения, генерация заданий, проверка текстов и изучение языков. Нужен контроль преподавателя."],["🩺","Медицина","Анализ МРТ, КТ и рентгена, ранняя диагностика и прогноз рисков."],["🚗","Транспорт и промышленность","Беспилотные автомобили и аналитика, предотвращающая поломки и аварии."],["💬","Быт и коммуникация","Голосовые помощники (Алиса, Siri), рекомендации музыки и видео, переводчики."],["📊","Экономика и бизнес","Анализ данных, чат-боты поддержки, прогноз спроса, документооборот."]];
+const BD=[["Авторство","Сохраняю контроль над результатом и не выдаю чужое за своё.","c1"],["Проверка","Проверяю факты и источники: нейросеть может уверенно ошибаться.","c2"],["Развитие","Расширяю возможности, а не заменяю базовые навыки письма и мышления.","c3"],["Этика и право","Указываю, что использовал ИИ, и защищаю персональные данные.","c4"]];
+const Q=[["Раздел 1. О вас",["Ваш возраст|до 18; 18–25; 26–40; старше 40","Чем вы занимаетесь?|учусь; работаю; учусь и работаю; другое","Как часто вы пользуетесь нейросетями?|каждый день; несколько раз в неделю; редко; никогда"]],["Раздел 2. Для тех, кто пользуется",["Для чего вы их используете?|учёба; работа; поиск информации; развлечения; творчество; другое","Какими нейросетями пользуетесь?|ChatGPT; YandexGPT / Алиса; GigaChat; Midjourney и др.; другие","Проверяете ли вы информацию нейросети?|всегда; иногда; почти никогда","Нейросеть выдавала вам неверную информацию?|да; нет; не замечал(а)","Стали ли вы чаще поручать ей задачи, которые раньше решали сами?|да; нет; затрудняюсь ответить"]],["Раздел 3. Для тех, кто не пользуется",["Почему вы не пользуетесь нейросетями?|не вижу необходимости; не доверяю; опасаюсь за данные; боюсь потерять навыки мышления; не умею; другое","Знаете ли вы, для чего нужны нейросети?|да, хорошо; слышал(а), но не вникал(а); нет","Планируете ли начать пользоваться?|да; возможно; нет"]],["Раздел 4. Ваше мнение",["Влияют ли нейросети на способность думать самостоятельно?|улучшают; ухудшают; не влияют; затрудняюсь ответить","Нужно ли ограничивать их использование в учёбе?|да; частично; нет"]]];
+// hero title
+const G=[2,3,5];$("#h1").setAttribute("aria-label",$("#h1").textContent);$("#h1").innerHTML=$("#h1").textContent.split(" ").map((w,i)=>`<span class="wd" aria-hidden="true"><span class="${G.includes(i)?"gt":""}" style="--i:${i}">${w}</span></span>`).join("");
+// typewriter
+const TW=["помощник в решении задач.","ускоритель науки.","риск для самостоятельного мышления?"];let ti=0,ci=0,dl=false;
+(function t(){const w=TW[ti];if(RM){$("#tw").textContent=TW[0];return}ci+=dl?-1:1;$("#tw").textContent=w.slice(0,ci);let d=dl?28:55;if(!dl&&ci==w.length){dl=true;d=1600}else if(dl&&ci==0){dl=false;ti=(ti+1)%TW.length;d=350}setTimeout(t,d)})();
+// marquee
+const MQ="ChatGPT · YandexGPT · GigaChat · Midjourney · Алиса · Siri · Трансформеры · Галлюцинации · Когнитивная разгрузка · Критическое мышление · ";$("#mq").textContent=MQ.repeat(4);
+// particles
+(function(){const c=$("#cv"),x=c.getContext("2d"),CL=["#FFFFFF","#BFD4FF","#FFE9A8","#C9B8FF"],m={x:-999,y:-999};let W,H,P=[];
+function rs(){const r=c.parentNode.getBoundingClientRect(),d=devicePixelRatio||1;W=r.width;H=r.height;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);P=Array.from({length:Math.min(90,Math.round(W*H/15000))},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:1.2+Math.random()*2.2,c:CL[Math.random()*4|0]}));if(RM)f()}
+function f(){x.clearRect(0,0,W,H);P.forEach((p,i)=>{if(!RM){p.x+=p.vx;p.y+=p.vy}if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;const dx=p.x-m.x,dy=p.y-m.y,d=Math.hypot(dx,dy);if(d<150&&d>0){p.x+=dx/d*1.5;p.y+=dy/d*1.5}for(let j=i+1;j<P.length;j++){const q=P[j],e=Math.hypot(p.x-q.x,p.y-q.y);if(e<125){x.strokeStyle=`rgba(170,200,255,${.55*(1-e/125)})`;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}}x.shadowColor=p.c;x.shadowBlur=10;x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();x.shadowBlur=0});if(!RM)requestAnimationFrame(f)}
+addEventListener("resize",rs);c.parentNode.addEventListener("pointermove",e=>{const r=c.getBoundingClientRect();m.x=e.clientX-r.left;m.y=e.clientY-r.top});c.parentNode.addEventListener("pointerleave",()=>m.x=-999);rs();if(!RM)f()})();
+// starfield + shooting stars
+(function(){const c=$("#sf"),x=c.getContext("2d");let W,H,S=[],sh=[];function rs(){const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);S=Array.from({length:Math.round(W*H/5500)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,z:Math.random()*.8+.1,p:Math.random()*6}))}
+function f(t){x.clearRect(0,0,W,H);S.forEach(s=>{const y=((s.y-scrollY*s.z*.25)%H+H)%H,a=RM?.7:.45+.55*Math.sin(t/900*s.z+s.p);x.fillStyle=`rgba(220,230,255,${a*.9})`;x.beginPath();x.arc(s.x,y,s.r,0,7);x.fill()});if(!RM){if(Math.random()<.006)sh.push({x:Math.random()*W,y:Math.random()*H*.5,l:0});sh=sh.filter(m=>m.l<1);sh.forEach(m=>{m.l+=.02;const px=m.x+m.l*260,py=m.y+m.l*150,g=x.createLinearGradient(px-80,py-46,px,py);g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(1,`rgba(255,255,255,${1-m.l})`);x.strokeStyle=g;x.lineWidth=2;x.beginPath();x.moveTo(px-80,py-46);x.lineTo(px,py);x.stroke()});requestAnimationFrame(f)}}
+addEventListener("resize",rs);rs();requestAnimationFrame(f)})();
+// cursor glow + progress
+addEventListener("pointermove",e=>{const g=$("#cg");g.style.opacity=1;g.style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});
+addEventListener("scroll",()=>{$("#pg").style.transform=`scaleX(${scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)})`},{passive:true});
+// spheres (tilt)
+$("#sg").innerHTML=SPH.map((s,i)=>`<div class="tc rz" style="--d:${i*.08}s"><i>${s[0]}</i><h3>${s[1]}</h3><p>${s[2]}</p></div>`).join("");
+$$(".tc").forEach(e=>{e.addEventListener("pointermove",v=>{const r=e.getBoundingClientRect(),px=(v.clientX-r.left)/r.width,py=(v.clientY-r.top)/r.height;e.style.setProperty("--mx",px*100+"%");e.style.setProperty("--my",py*100+"%");e.style.transform=`perspective(700px) rotateX(${(.5-py)*10}deg) rotateY(${(px-.5)*12}deg) translateY(-4px)`});e.addEventListener("pointerleave",()=>e.style.transform="")});
+// balance slider
+const rg=$("#rg");function up(){const v=+rg.value,b=Math.round(Math.max(18,100-Math.abs(v-45)*1.5));$("#bb").style.width=b+"%";$("#rb").style.width=Math.max(v,3)+"%";$("#bn").textContent=b;$("#rn").textContent=v;$("#msg").textContent=v<30?"Безопасно, но ты упускаешь возможности, которые даёт нейросеть.":v<65?"Золотая середина: нейросеть помогает, а думаешь по-прежнему ты.":"Опасная зона: слабеют навыки письма и критического мышления."}rg.oninput=up;up();
+// flip cards
+$("#fg").innerHTML=BD.map((b,i)=>`<div class="fl rz" tabindex="0" role="button" aria-label="${b[0]}" style="--d:${i*.08}s"><div><section class="c ${b[2]}"><div class="n">${i+1}</div><h3>${b[0]}</h3><p class="h">нажми, чтобы перевернуть</p></section><section class="c bk ${b[2]}"><h3>${b[0]}</h3><p>${b[1]}</p></section></div></div>`).join("");
+$$(".fl").forEach(e=>{e.onclick=()=>e.classList.toggle("f");e.onkeydown=v=>{if(v.key==="Enter"||v.key===" "){v.preventDefault();e.classList.toggle("f")}}});
+// survey
+if(SURVEY_URL)$("#sl").href=SURVEY_URL;else $("#sn").textContent="Ссылка на форму появится здесь, как только опрос будет опубликован. Пока можно посмотреть вопросы.";
+$("#qs").innerHTML=Q.map(([t,qs],i)=>`<details${i?"":" open"}><summary>${t}</summary><ol start="${Q.slice(0,i).reduce((a,b)=>a+b[1].length,0)+1}">${qs.map(q=>{const[a,o]=q.split("|");return`<li><b style="color:var(--tx)">${a}</b><br>${o}</li>`}).join("")}</ol></details>`).join("");
+$("#rs").innerHTML=RESULTS.length?RESULTS.map(r=>{const m=Math.max(...r.items.map(i=>i[1]),1);return`<div class="c c3 rv" style="margin-bottom:20px"><h3>${r.q}</h3>${r.items.map(i=>`<div class="bar"><span>${i[0]} — ${i[1]}%</span><i style="width:${i[1]/m*100}%"></i></div>`).join("")}</div>`}).join(""):'<div class="empty"><h3 style="margin-bottom:8px">Результаты скоро появятся</h3><p style="margin:0">Здесь будут диаграммы по возрастным группам, как только мы соберём ответы.</p></div>';
+// ===== рабочий опрос =====
+const AUTHOR_EMAIL="";
+const SQ=[["Ваш возраст",["до 18","18–25","26–40","старше 40"]],["Чем вы занимаетесь?",["учусь","работаю","учусь и работаю","другое"]],["Как часто вы пользуетесь нейросетями?",["каждый день","несколько раз в неделю","редко","никогда"]],["Для чего вы их используете?",["учёба","работа","поиск информации","развлечения","творчество","другое"],1],["Какими нейросетями пользуетесь?",["ChatGPT","YandexGPT / Алиса","GigaChat","DeepSeek","Claude","другие"],1],["Проверяете ли вы информацию нейросети?",["всегда","иногда","почти никогда"]],["Нейросеть выдавала вам неверную информацию?",["да","нет","не замечал(а)"]],["Стали ли вы чаще поручать ей задачи, которые раньше решали сами?",["да","нет","затрудняюсь ответить"]],["Почему вы не пользуетесь нейросетями?",["не вижу необходимости","не доверяю результатам","опасаюсь за данные","боюсь потерять навыки мышления","не умею","другое"],1],["Знаете ли вы, для чего нужны нейросети?",["да, хорошо","слышал(а), но не вникал(а)","нет"]],["Планируете ли начать пользоваться?",["да","возможно","нет"]],["Влияют ли нейросети на способность думать самостоятельно?",["улучшают","ухудшают","не влияют","затрудняюсь ответить"]],["Нужно ли ограничивать их использование в учёбе?",["да","частично","нет"]]];
+const flow=a=>[0,1,2,...(a[2]===3?[8,9,10]:[3,4,5,6,7]),11,12];
+let A=Array(13).fill(null),pos=0,cq=0,tm;
+function cpy(t,b){const o=b.textContent,ok=()=>{b.textContent="Скопировано ✓";setTimeout(()=>b.textContent=o,1800)};(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(ok).catch(()=>{const e=document.createElement("textarea");e.value=t;document.body.append(e);e.select();try{document.execCommand("copy");ok()}catch(_){}e.remove()})}
+function rq(){clearTimeout(tm);const f=flow(A);if(pos>=f.length)return done();const i=f[pos],q=SQ[i],m=q[2];cq=i;$("#spb").style.width=pos/f.length*100+"%";const dis=A[i]==null||(m&&!A[i].length);
+$("#sq").innerHTML=`<div class="qa"><p class="qh">Вопрос ${pos+1} из ${f.length}${m?" · можно выбрать несколько":""}</p><h3 class="qt">${q[0]}</h3>${q[1].map((o,k)=>`<button class="op${(m?(A[i]||[]).includes(k):A[i]===k)?" on":""}" data-k="${k}">${o}</button>`).join("")}<div class="nv">${pos?'<button class="bt g" id="bk">Назад</button>':""}<button class="bt" id="nx"${dis?" disabled":""}>${pos==f.length-1?"Завершить":"Далее"}</button></div></div>`}
+function done(){$("#spb").style.width="100%";const f=flow(A),code="N1|"+A.map((a,i)=>f.includes(i)?(Array.isArray(a)?a.join(","):a):"-").join("|");
+$("#sq").innerHTML=`<div class="qa"><h3 class="qt" style="font-size:clamp(26px,4vw,38px)">Вы молодец! 🚀</h3><p style="color:var(--mu);font-size:19px">Спасибо за опрос: ваши ответы помогут исследованию.</p><details style="margin-top:20px"><summary>Для автора работы: код ответов</summary><p style="color:var(--mu);font-size:14px;margin:10px 0">Код анонимный, в нём нет имени и личных данных. Скопируйте его и отправьте автору, если он попросил.</p><textarea class="code" id="cd" readonly rows="2">${code}</textarea><div class="nv" style="margin-top:12px"><button class="bt" id="cp">Скопировать код</button>${AUTHOR_EMAIL?`<a class="bt g" style="text-decoration:none" href="mailto:${AUTHOR_EMAIL}?subject=Ответы%20на%20опрос&body=${encodeURIComponent(code)}">Отправить по почте</a>`:""}</div></details><div class="nv"><button class="bt g" id="again">Пройти заново</button></div></div>`;
+$("#cp").onclick=()=>cpy(code,$("#cp"));$("#again").onclick=()=>{A=Array(13).fill(null);pos=0;rq()}}
+$("#qs").innerHTML='<div class="sv"><div class="pgb"><i id="spb"></i></div><div id="sq"></div></div>';
+$("#sq").onclick=e=>{const b=e.target.closest("button");if(!b)return;if(b.id==="bk"){pos--;rq();return}if(b.id==="nx"){pos++;rq();return}if(!b.classList.contains("op"))return;const k=+b.dataset.k,m=SQ[cq][2];
+if(m){A[cq]=A[cq]||[];const x=A[cq].indexOf(k);x<0?A[cq].push(k):A[cq].splice(x,1);A[cq].sort((a,b)=>a-b)}else{if(cq===2&&A[2]!==k)for(let j=3;j<11;j++)A[j]=null;A[cq]=k}
+$$("#sq .op").forEach((o,j)=>o.classList.toggle("on",m?A[cq].includes(j):A[cq]===j));$("#nx").disabled=m&&!A[cq].length;if(!m){clearTimeout(tm);tm=setTimeout(()=>{pos++;rq()},320)}};
+rq();
+// ===== результаты из кодов =====
+$("#rs").innerHTML='<p class="lead">Вставьте коды ответов (по одному в строке), и сайт построит диаграммы и таблицы сравнения.</p><textarea class="code" id="ci" rows="5" placeholder="N1|1|0|2|..."></textarea><div class="nv"><button class="bt" id="bd">Построить диаграммы</button><button class="bt g" id="bs">Скопировать сводку</button></div><div id="ro"></div>';
+function pr(){return $("#ci").value.split(/\n/).map(s=>s.trim()).filter(s=>s.startsWith("N1|")).map(s=>s.split("|").slice(1)).filter(p=>p.length==13).map(p=>p.map((v,i)=>v==="-"?null:SQ[i][2]?v.split(",").map(Number):+v))}
+const cnt=(R,i,k)=>R.filter(d=>SQ[i][2]?d[i].includes(k):d[i]===k).length;
+function xr(){const D=pr(),q=+$("#xq").value,s=+$("#xs").value;let t='<div style="overflow-x:auto"><table class="tb"><tr><th></th>'+SQ[q][1].map(o=>`<th>${o}</th>`).join("")+"<th>n</th></tr>";SQ[s][1].forEach((g,gi)=>{const G=D.filter(d=>d[s]===gi&&d[q]!==null);t+=`<tr><td><b>${g}</b></td>${SQ[q][1].map((_,k)=>`<td>${G.length?Math.round(cnt(G,q,k)/G.length*100)+"%":"—"}</td>`).join("")}<td>${G.length}</td></tr>`});$("#xt").innerHTML=t+"</table></div>"}
+const PAL=["#8B7CFF","#35E0C8","#FFC857","#FF8A76","#5B9BD5","#C9B8FF"];
+function dn(it,t,c){let a=0;const C=2*Math.PI*54;let s='<svg width="150" height="150" viewBox="0 0 150 150" role="img" aria-label="Диаграмма"><g transform="rotate(-90 75 75)"><circle cx="75" cy="75" r="54" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="26"/>';it.forEach((x,k)=>{const L=x[1]/t*C;s+=`<circle class="ds" cx="75" cy="75" r="54" fill="none" stroke="${PAL[k%6]}" stroke-width="26" style="stroke-dasharray:0 ${C};--d:${L} ${C-L}" data-d="${L} ${C-L}" stroke-dashoffset="${-a}"/>`;a+=L});return`<div class="dw">${s}</g><text x="75" y="82" text-anchor="middle" fill="#fff" font-size="24" font-weight="700">${c||t}</text></svg><div class="dl">${it.map((x,k)=>`<div><i style="background:${PAL[k%6]}"></i>${x[0]} — ${x[1]} (${Math.round(x[1]/t*100)}%)</div>`).join("")}</div></div>`}
+function bd(){const D=pr();try{localStorage.setItem("nn_codes",$("#ci").value)}catch(_){}
+if(!D.length){$("#ro").innerHTML='<div class="empty" style="margin-top:24px"><h3 style="margin-bottom:8px">Пока нет данных</h3><p style="margin:0">Вставьте хотя бы один код, который начинается с N1|</p></div>';return}
+let h=`<p class="lead" style="margin-top:28px">Всего ответов: <b>${D.length}</b></p>`;
+SQ.forEach((q,i)=>{const R=D.filter(d=>d[i]!==null);if(!R.length)return;h+=`<div class="c c3" style="margin-bottom:16px"><h3>${i+1}. ${q[0]}</h3><p style="font-size:14px">Ответили: ${R.length}</p>${q[2]?q[1].map((o,k)=>{const n=cnt(R,i,k),p=n/R.length*100;return`<div class="bar"><span>${o} — ${n} (${Math.round(p)}%)</span><i style="width:0" data-w="${p}"></i></div>`}).join(""):dn(q[1].map((o,k)=>[o,cnt(R,i,k)]),R.length)}</div>`});
+const sg=SQ.map((q,i)=>q[2]?"":`<option value="${i}">${i+1}. ${q[0]}</option>`).join("");
+h+=`<div class="c c4"><h3>Сравнение групп</h3><p style="margin-bottom:14px">Проценты внутри каждой группы.</p><div class="nv" style="margin:0 0 16px"><select id="xq" class="bt g" style="max-width:100%">${sg}</select><select id="xs" class="bt g"><option value="0">по возрасту</option><option value="2">по частоте использования</option></select></div><div id="xt"></div></div>`;
+$("#ro").innerHTML=h;$("#xq").value="11";$("#xq").onchange=$("#xs").onchange=xr;xr();requestAnimationFrame(()=>requestAnimationFrame(()=>{$$("#ro .bar i").forEach(e=>e.style.width=e.dataset.w+"%");$$("#ro .ds").forEach(e=>e.style.strokeDasharray=e.dataset.d)}))}
+function sm(){const D=pr();let t=`Опрос «Нейросети в нашей жизни», ответов: ${D.length}\n`;SQ.forEach((q,i)=>{const R=D.filter(d=>d[i]!==null);if(!R.length)return;t+=`\n${i+1}. ${q[0]} (ответили ${R.length})\n`+q[1].map((o,k)=>`- ${o}: ${cnt(R,i,k)}`).join("\n")+"\n"});return t}
+$("#bd").onclick=bd;$("#bs").onclick=()=>cpy(sm(),$("#bs"));
+try{const sv=localStorage.getItem("nn_codes");if(sv){$("#ci").value=sv;bd()}}catch(_){}
+// ===== диаграммы ВЦИОМ =====
+(function(){const G=[["Пользовались за год",73,78],["Минимум раз в неделю",51,58]];
+$("#ch1").innerHTML='<div class="vb">'+G.map(g=>`<div class="vg"><div class="vc" style="--h:${g[1]*2.4}px;background:#8B7CFF"><b>${g[1]}%</b></div><div class="vc" style="--h:${g[2]*2.4}px;background:#35E0C8"><b>${g[2]}%</b></div></div>`).join("")+'</div><div class="vl">'+G.map(g=>`<span>${g[0]}</span>`).join("")+'</div><div class="dl" style="margin-top:14px"><div><i style="background:#8B7CFF"></i>2025</div><div><i style="background:#35E0C8"></i>2026</div></div>';
+$("#ch2").innerHTML=dn([["пользовались за год",78],["не пользовались",22]],100,"78%");
+const bars=a=>{const m=Math.max(...a.map(x=>x[1]));return a.map(x=>`<div class="bar ab"><span>${x[0]} — ${x[1]}%</span><i style="--w:${x[1]/m*100}%"></i></div>`).join("")};
+$("#ch3").innerHTML=bars([["Быстрее решать задачи, экономить время",33],["Доступная и полезная информация",10],["Просто и удобно",9],["Точные и качественные ответы",8]]);
+$("#ch4").innerHTML=bars([["Нет подходящих задач",44],["Не хватает знаний о возможностях",36]])})();
+// counters, reveal, theme
+function cu(e){const n=+e.dataset.n,s=performance.now();(function f(t){const k=Math.min((t-s)/1400,1);e.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(s)}
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");x.target.querySelectorAll("[data-n]").forEach(cu);if(x.target.dataset.n)cu(x.target);io.unobserve(x.target)}}),{threshold:.15});
+$$(".rv,.rl,.rr,.rz,.hl,[data-n]").forEach(e=>io.observe(e));
+
+</script>
+</body>
+</html>
